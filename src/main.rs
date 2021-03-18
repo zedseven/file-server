@@ -1,25 +1,36 @@
+use clap::{App, Arg, ArgMatches};
 use rocket::{self, config::Environment, Config};
 use rocket_contrib::serve::StaticFiles;
 use std::env;
 
 fn main() {
-	let args: Vec<String> = env::args().collect();
-	if args.len() < 2 {
-		println!("args: <path> [<port>]");
-		return;
-	}
-	let static_path: &String = &args[1];
-	let port: u16 = if args.len() >= 3 {
-		match args[2].parse::<u16>() {
-			Ok(p) => p,
-			Err(e) => {
-				eprintln!("The port value must be an integer: {}", e);
-				return;
-			}
-		}
-	} else {
-		8080
-	};
+	let matches: ArgMatches = App::new("File Server")
+		.version(env!("CARGO_PKG_VERSION"))
+		.author(env!("CARGO_PKG_AUTHORS"))
+		.about("A basic file server for serving up static files over HTTP.")
+		.arg(
+			Arg::new("input")
+				.required(true)
+				.index(1)
+				.about("The directory to serve"),
+		)
+		.arg(
+			Arg::new("port")
+				.short('p')
+				.long("port")
+				.takes_value(true)
+				.default_value("8080")
+				.allow_hyphen_values(true)
+				.validator(|s| match s.parse::<u16>() {
+					Ok(_) => Ok(()),
+					Err(_) => Err(String::from("must be parseable as u16")),
+				})
+				.about("Sets the port to host the server on"),
+		)
+		.get_matches();
+
+	let static_path: String = String::from(matches.value_of("input").unwrap());
+	let port: u16 = matches.value_of("port").unwrap().parse::<u16>().unwrap();
 
 	let config = match Config::build(Environment::Development)
 		.address("0.0.0.0")
