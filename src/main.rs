@@ -23,7 +23,7 @@ fn main() {
 				.allow_hyphen_values(true)
 				.validator(|s| match s.parse::<u16>() {
 					Ok(_) => Ok(()),
-					Err(_) => Err(String::from("must be parseable as u16")),
+					Err(_) => Err(String::from("must be parsable as u16")),
 				})
 				.about("Sets the port to host the server on"),
 		)
