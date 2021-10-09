@@ -1,7 +1,7 @@
 mod cli;
 mod favicon;
 
-use rocket::{self, fs::FileServer, main as rocket_main, routes, Config};
+use rocket::{self, custom, fs::FileServer, main as rocket_main, routes, Config};
 
 use crate::{cli::parse_cli_arguments, favicon::favicon_route};
 
@@ -18,7 +18,7 @@ async fn main() {
 	config.port = port;
 
 	// Launch
-	if let Err(launch_error) = rocket::custom(config)
+	if let Err(launch_error) = custom(config)
 		.mount("/", routes![favicon_route])
 		.mount("/", FileServer::from(static_path))
 		.launch()
