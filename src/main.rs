@@ -1,51 +1,29 @@
-use clap::{App, Arg, ArgMatches};
-use rocket::{self, config::Environment, Config};
-use rocket_contrib::serve::StaticFiles;
-use std::env;
+mod cli;
+mod favicon;
 
-fn main() {
-	let matches: ArgMatches = App::new("File Server")
-		.version(env!("CARGO_PKG_VERSION"))
-		.author(env!("CARGO_PKG_AUTHORS"))
-		.about("A basic file server for serving up static files over HTTP.")
-		.arg(
-			Arg::new("input")
-				.required(true)
-				.index(1)
-				.about("The directory to serve"),
-		)
-		.arg(
-			Arg::new("port")
-				.short('p')
-				.long("port")
-				.takes_value(true)
-				.default_value("8080")
-				.allow_hyphen_values(true)
-				.validator(|s| match s.parse::<u16>() {
-					Ok(_) => Ok(()),
-					Err(_) => Err(String::from("must be parsable as u16")),
-				})
-				.about("Sets the port to host the server on"),
-		)
-		.get_matches();
+use rocket::{self, fs::FileServer, main as rocket_main, routes, Config};
 
-	let static_path: String = String::from(matches.value_of("input").unwrap());
-	let port: u16 = matches.value_of("port").unwrap().parse::<u16>().unwrap();
+use crate::{cli::parse_cli_arguments, favicon::favicon_route};
 
-	let config = match Config::build(Environment::Development)
-		.address("0.0.0.0")
-		.port(port)
-		.finalize()
+#[rocket_main]
+async fn main() {
+	// Parse CLI
+	let matches = parse_cli_arguments();
+	let static_path = String::from(matches.value_of("input").unwrap());
+	let port = matches.value_of("port").unwrap().parse::<u16>().unwrap();
+
+	// Configure
+	let mut config = Config::debug_default();
+	config.address = "0.0.0.0".parse().unwrap();
+	config.port = port;
+
+	// Launch
+	if let Err(launch_error) = rocket::custom(config)
+		.mount("/", routes![favicon_route])
+		.mount("/", FileServer::from(static_path))
+		.launch()
+		.await
 	{
-		Ok(c) => c,
-		Err(e) => {
-			eprintln!("The port value is invalid: {}", e);
-			return;
-		}
-	};
-
-	let launch_error = rocket::custom(config)
-		.mount("/", StaticFiles::from(static_path))
-		.launch();
-	eprintln!("There was an error launching the server: {}", launch_error);
+		eprintln!("There was an error launching the server: {}", launch_error);
+	}
 }
