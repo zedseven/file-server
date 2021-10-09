@@ -1,12 +1,16 @@
-# Static File Server
-[![License: WTFPL](https://img.shields.io/badge/license-WTFPL-brightgreen.svg)](http://www.wtfpl.net/about/)
+# File Server
+[![License: WTFPL](https://img.shields.io/badge/license-WTFPL-blue.svg)](http://www.wtfpl.net/about/)
 
 A basic file server made with [Rocket](https://rocket.rs/) for serving up static files over HTTP.
 
 ## Usage
 Usage is super simple:
-```file_server <path>```
+```
+file_server <path>
+```
 (a different `port` can also be optionally specified, and defaults to `8080`)
+
+Then just access the device running `file_server` at `<ip>:8080/<file_path>`.
 
 ## Building
 Run the following commands from the project directory.
