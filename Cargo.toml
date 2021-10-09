@@ -6,6 +6,10 @@ edition = "2021"
 license = "WTFPL"
 description = "A basic static file server made with Rocket for serving up static files over HTTP."
 
+[profile.release]
+codegen-units = 1
+lto = true
+
 [dependencies]
 clap = "3.0.0-beta.4"
 rocket = "0.5.0-rc.1"
