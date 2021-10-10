@@ -1,5 +1,7 @@
+// Uses
 use clap::{App, Arg, ArgMatches};
 
+/// Defines the CLI arguments and parses user input.
 pub fn parse_cli_arguments() -> ArgMatches {
 	App::new("File Server")
 		.version(env!("CARGO_PKG_VERSION"))
@@ -8,7 +10,6 @@ pub fn parse_cli_arguments() -> ArgMatches {
 		.arg(
 			Arg::new("input")
 				.required(true)
-				.default_value(".")
 				.about("The directory to serve files from"),
 		)
 		.arg(

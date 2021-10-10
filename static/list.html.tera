@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{directory}}</title>
+
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <meta name='theme-color' content='#3890D3'>
+    </head>
+    <body>
+        <h1>{{directory}}</h1>
+        <ul>
+            {% for entry in entry_list %}
+            <li><a href='{{entry}}'>{{entry}}</a></li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

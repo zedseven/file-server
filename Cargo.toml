@@ -1,6 +1,6 @@
 [package]
 name = "file-server"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Zacchary Dempsey-Plante <zacc@ztdp.ca>"]
 edition = "2021"
 license = "WTFPL"
@@ -12,4 +12,7 @@ lto = true
 
 [dependencies]
 clap = "3.0.0-beta.4"
+listing-file-server = { git = "https://github.com/zedseven/listing-file-server" }
 rocket = "0.5.0-rc.1"
+rocket_dyn_templates = { version = "0.1.0-rc.1", features = ["tera"] }
+serde = { version = "1.0", features = ["derive"] }
