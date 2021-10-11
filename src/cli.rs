@@ -1,3 +1,5 @@
+//! Defines and parses the CLI arguments.
+
 // Uses
 use clap::{App, Arg, ArgMatches};
 

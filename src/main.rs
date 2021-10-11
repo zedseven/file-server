@@ -29,6 +29,7 @@
 
 // Modules
 mod cli;
+mod constants;
 mod favicon;
 
 // Uses
@@ -39,10 +40,7 @@ use rocket::{self, custom, fs::Options, main as rocket_main, routes, Config};
 use rocket_dyn_templates::Template;
 use serde::Serialize;
 
-use crate::{cli::parse_cli_arguments, favicon::favicon_route};
-
-// Constants
-const LIST_TEMPLATE_FILE: &str = include_str!("../static/list.html.tera");
+use crate::{cli::parse_cli_arguments, constants::LIST_TEMPLATE_CONTENTS, favicon::favicon_route};
 
 /// The context for a directory listing, containing the directory path and
 /// contents.
@@ -73,7 +71,7 @@ async fn main() {
 		.attach(Template::custom(|engines| {
 			engines
 				.tera
-				.add_raw_template("list.html", LIST_TEMPLATE_FILE)
+				.add_raw_template("list.html", LIST_TEMPLATE_CONTENTS)
 				.expect("Unable to add the directory listing template")
 		}))
 		// Favicon route
@@ -86,7 +84,7 @@ async fn main() {
 				Options::DotFiles | Options::NormalizeDirs,
 				|directory, mut entry_list| {
 					if directory != "/" {
-						entry_list.insert(0, String::from(".."));
+						entry_list.insert(0, String::from("../"));
 					}
 					Template::render(
 						"list.html",

@@ -1,11 +1,12 @@
+//! Contains the route for serving the favicon of the server.
+
 // Uses
 use rocket::get;
 
-// Constants
-const FAVICON: &[u8] = include_bytes!("../static/favicon.ico");
+use crate::constants::FAVICON_FILE_CONTENTS;
 
 /// Serves the tool's favicon.
 #[get("/favicon.ico")]
 pub fn favicon_route() -> &'static [u8] {
-	FAVICON
+	FAVICON_FILE_CONTENTS
 }
