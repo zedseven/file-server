@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
     <head>
-        <title>{{directory}}</title>
-
+        <title>{{directory}} - File Server</title>
         <meta charset='utf-8'>
         <meta name='viewport' content='width=device-width, initial-scale=1'>
         <meta name='theme-color' content='#3890D3'>
+        <link rel='icon' href='/favicon.ico' type='image/x-icon'>
     </head>
-    <body>
+    <body style='font-family: sans-serif'>
         <h1>{{directory}}</h1>
         <ul>
             {% for entry in entry_list %}
