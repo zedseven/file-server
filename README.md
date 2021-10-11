@@ -18,7 +18,7 @@ If you have Rust installed on your machine, simply run:
 cargo install --git https://github.com/zedseven/file-server
 ```
 
-If not, you should likely be able to get a working executable for your platform from the Releases tab.
+If not, you should likely be able to get a working executable for your platform from the [Releases tab](https://github.com/zedseven/file-server/releases).
 
 ## Building
 Run the following commands from the project directory.
