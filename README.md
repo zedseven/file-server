@@ -12,6 +12,14 @@ file_server <path>
 
 Then just access the device running `file_server` at `<ip>:8080/<file_path>`.
 
+## Installation
+If you have Rust installed on your machine, simply run:
+```
+cargo install --git https://github.com/zedseven/file-server
+```
+
+If not, you should likely be able to get a working executable for your platform from the Releases tab.
+
 ## Building
 Run the following commands from the project directory.
 
